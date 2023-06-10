@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { GraphQLClient, gql } from "graphql-request";
 
 const mutation = gql`
@@ -13,4 +14,5 @@ const mutation = gql`
 export async function removeTodo(id: number) {
   const graphQLClient = new GraphQLClient("http://localhost:3000/api/graphql");
   await graphQLClient.request(mutation, { id });
+  revalidatePath("/");
 }

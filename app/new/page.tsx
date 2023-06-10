@@ -17,13 +17,8 @@ export default function Page() {
 
   const onSubmitHandler = useCallback(
     async (values: FormValues) => {
-      try {
-        await addTodo(values.title);
-      } catch {
-        // noop
-      } finally {
-        router.push("/");
-      }
+      await addTodo(values.title);
+      router.push("/");
     },
     [router]
   );
