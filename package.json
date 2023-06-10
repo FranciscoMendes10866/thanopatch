@@ -20,6 +20,7 @@
     "eslint-config-next": "13.4.4",
     "garph": "^0.5.4",
     "graphql": "^16.6.0",
+    "graphql-request": "^6.1.0",
     "graphql-yoga": "^4.0.0",
     "houseform": "^1.10.6",
     "next": "13.4.4",
@@ -31,9 +32,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@gqty/react": "^3.0.0-alpha-4a2eebdf.0",
     "@next/bundle-analyzer": "^13.4.4",
-    "daisyui": "^3.0.22",
-    "gqty": "^3.0.0-alpha-4a2eebdf.0"
+    "daisyui": "^3.0.22"
   }
 }

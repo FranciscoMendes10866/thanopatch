@@ -1,15 +1,29 @@
-"use client";
+import { Infer } from "garph";
+import { request, gql } from "graphql-request";
+import { TodoGQL } from "../server/schema";
 
-import { useQuery } from "../utils/gqty";
+const document = gql`
+  query getTodos {
+    getTodos {
+      id
+      title
+    }
+  }
+`;
 
-export default function List() {
-  const { getTodos } = useQuery({ suspense: true });
+interface Data {
+  getTodos: Array<Infer<typeof TodoGQL>>;
+}
+
+export default async function List() {
+  const data = await request<Data>(
+    "http://localhost:3000/api/graphql",
+    document
+  );
 
   return (
     <ul className="space-y-4">
-      {getTodos?.map((todo, index) => {
-        if (!todo.title) return null;
-
+      {data?.getTodos?.map((todo, index) => {
         return (
           <li
             className="card w-96 bg-base-100 shadow-xl cursor-pointer"
