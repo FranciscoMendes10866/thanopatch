@@ -5,14 +5,28 @@ import Link from "next/link";
 import { Form, Field } from "houseform";
 import { z } from "zod";
 
+import { Todo, useMutation } from "../../utils/gqty";
+
 interface FormValues {
   title: string;
 }
 
 export default function Page() {
-  const onSubmitHandler = useCallback(async (values: FormValues) => {
-    console.log(values);
-  }, []);
+  const [addTodo] = useMutation<Todo, FormValues>((mutation, inputs) => {
+    const item = mutation.addTodo(inputs);
+
+    // selections
+    item.id;
+
+    return item;
+  });
+
+  const onSubmitHandler = useCallback(
+    async (values: FormValues) => {
+      await addTodo({ args: values });
+    },
+    [addTodo]
+  );
 
   return (
     <div className="max-w-xs space-y-6">

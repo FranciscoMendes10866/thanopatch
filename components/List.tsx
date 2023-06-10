@@ -1,27 +1,26 @@
-import type { Infer } from "garph";
+"use client";
 
-import { resolve } from "../utils/gqty";
-import { TodoGQL } from "../server/schema";
+import { useQuery } from "../utils/gqty";
 
-type Todos = Array<Infer<typeof TodoGQL>>;
-
-export const prepare = (todos: Todos) => todos.map((todo) => todo.title);
-
-export default async function List() {
-  const data = await resolve(({ query: { getTodos } }) => prepare(getTodos));
+export default function List() {
+  const { getTodos } = useQuery({ suspense: true });
 
   return (
-    <ul>
-      {data?.map((todo, index) => (
-        <li
-          className="card w-96 bg-base-100 shadow-xl cursor-pointer"
-          key={index}
-        >
-          <div className="card-body">
-            <p>{todo}</p>
-          </div>
-        </li>
-      ))}
+    <ul className="space-y-4">
+      {getTodos?.map((todo, index) => {
+        if (!todo.title) return null;
+
+        return (
+          <li
+            className="card w-96 bg-base-100 shadow-xl cursor-pointer"
+            key={index}
+          >
+            <div className="card-body">
+              <p>{todo.title}</p>
+            </div>
+          </li>
+        );
+      })}
     </ul>
   );
 }

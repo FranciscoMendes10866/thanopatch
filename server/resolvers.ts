@@ -1,18 +1,28 @@
-import { InferResolvers } from "garph";
+import { Infer, InferResolvers } from "garph";
 import { YogaInitialContext } from "graphql-yoga";
+import delay from "delay";
+import cuid from "cuid";
 
-import { mutationType, queryType } from "./schema";
+import { TodoGQL, mutationType, queryType } from "./schema";
+
+const mockedDB: Infer<typeof TodoGQL>[] = [];
 
 export const resolvers: InferResolvers<
   { Query: typeof queryType; Mutation: typeof mutationType },
   { context: YogaInitialContext }
 > = {
   Query: {
-    getTodos: (_, __, ctx) => [],
+    getTodos: async (_, __, ctx) => {
+      await delay(1_200);
+      return mockedDB;
+    },
   },
   Mutation: {
-    addTodo: (_, args, ctx) => {
-      return { id: "", title: "" };
+    addTodo: async (_, { title }, ctx) => {
+      await delay(1_000);
+      const item = { id: cuid(), title };
+      mockedDB.push(item);
+      return item;
     },
   },
 };
