@@ -3,8 +3,9 @@ import { GarphSchema } from "garph";
 export const g = new GarphSchema();
 
 export const TodoGQL = g.type("Todo", {
-  id: g.id(),
+  id: g.int(),
   title: g.string(),
+  createdAt: g.int(),
 });
 
 export const queryType = g.type("Query", {
@@ -16,6 +17,13 @@ export const mutationType = g.type("Mutation", {
     .ref(TodoGQL)
     .args({
       title: g.string(),
+    })
+    .description("Adds a new todo"),
+  removeTodo: g
+    .ref(TodoGQL)
+    .optional()
+    .args({
+      id: g.int(),
     })
     .description("Adds a new todo"),
 });

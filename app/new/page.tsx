@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Form, Field } from "houseform";
 import { z } from "zod";
 
@@ -12,9 +13,20 @@ interface FormValues {
 }
 
 export default function Page() {
-  const onSubmitHandler = useCallback(async (values: FormValues) => {
-    await addTodo(values.title);
-  }, []);
+  const router = useRouter();
+
+  const onSubmitHandler = useCallback(
+    async (values: FormValues) => {
+      try {
+        await addTodo(values.title);
+      } catch {
+        // noop
+      } finally {
+        router.push("/");
+      }
+    },
+    [router]
+  );
 
   return (
     <div className="max-w-xs space-y-6">
