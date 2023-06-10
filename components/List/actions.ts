@@ -11,7 +11,6 @@ const mutation = gql`
 `;
 
 export async function removeTodo(id: number) {
-  "use server";
   const graphQLClient = new GraphQLClient("http://localhost:3000/api/graphql");
   await graphQLClient.request(mutation, { id });
 }
