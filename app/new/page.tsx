@@ -15,7 +15,7 @@ const formValuesSchema = z.object({
   title: z.string().min(3),
 });
 
-export async function addTodo(formData: FormData) {
+async function addTodo(formData: FormData) {
   "use server";
 
   const formValues = {} as any;
